@@ -1,15 +1,13 @@
 package ru.netology.nerecipe.demo
 
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
 
 class StepDemo {
 
     companion object {
-        val stepData = MutableLiveData(List(3) { index ->
+        val data = List(3) { index ->
             Step(
                 id = index + 1,
                 stepContent = "Шаг №${index + 1}\n" +
@@ -21,6 +19,7 @@ class StepDemo {
                         " миссия - помочь встать на путь роста и начать цепочку перемен →",
                 stepImagePath = "file:///mnt/sdcard/Pictures/солянка.jpg".toUri()
             )
-        })
+        }
+        val stepData = MutableLiveData(data)
     }
 }

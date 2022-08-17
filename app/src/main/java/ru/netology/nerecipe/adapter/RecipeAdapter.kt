@@ -16,7 +16,7 @@ class RecipeAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecipiesForFeedBinding.inflate(inflater, parent, false)
-        return RecipeHolder(binding/*interactionListener*/)
+        return RecipeHolder(binding,interactionListener)
     }
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
@@ -25,10 +25,19 @@ class RecipeAdapter(
     }
 
     class RecipeHolder(
-        private val binding : RecipiesForFeedBinding
+        private val binding : RecipiesForFeedBinding,
+        listener: InteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private lateinit var recipe: RecipeModel
+
+        init {
+            binding.recipeImage.setOnClickListener {
+                listener.showDetailedView(recipe)
+            }
+        }
+
         fun bind(recipe: RecipeModel) = with(binding) {
+            this@RecipeHolder.recipe = recipe
 
         }
     }

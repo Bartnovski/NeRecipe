@@ -3,9 +3,8 @@ package ru.netology.nerecipe.demo
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.Repository
-import ru.netology.nerecipe.models.Step
+import ru.netology.nerecipe.models.RecipeModel
 
 class RecipeDemo() : Repository {
 
