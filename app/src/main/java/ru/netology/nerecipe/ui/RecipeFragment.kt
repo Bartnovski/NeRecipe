@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.ItemTouchHelper
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.adapter.RecipeAdapter
 import ru.netology.nerecipe.databinding.RecipeLayoutBinding
 import ru.netology.nerecipe.models.RecipeModel
+import ru.netology.nerecipe.utils.touch_helper.RecipeItemTouchHelperCallback
 
 class RecipeFragment : Fragment() {
 
@@ -27,6 +29,10 @@ class RecipeFragment : Fragment() {
         viewModel.stepData.observe(viewLifecycleOwner) { step ->
             adapter.submitList(step)
         }
+
+        val callback = RecipeItemTouchHelperCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(binding.stepRecycler)
 
         return binding.root
     }

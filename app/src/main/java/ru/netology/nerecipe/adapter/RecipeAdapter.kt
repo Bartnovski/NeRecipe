@@ -2,16 +2,15 @@ package ru.netology.nerecipe.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.map
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.databinding.RecipiesForFeedBinding
 import ru.netology.nerecipe.models.RecipeModel
+import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
 import java.util.*
-import java.util.stream.Collectors.toList
 
 class RecipeAdapter(
     private val interactionListener: InteractionListener
