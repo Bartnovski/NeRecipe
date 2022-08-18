@@ -7,10 +7,10 @@ import ru.netology.nerecipe.models.Step
 class StepDemo {
 
     companion object {
-        val data = List(3) { index ->
+        private val data = List(3) { index ->
             Step(
                 id = index + 1,
-                stepContent = "Шаг №${index + 1}\n" +
+                stepContent =
                         "Привет! Это новая Нетология! Когда-то Нетология начиналась с интенсивов" +
                         "по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике" +
                         "и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных" +

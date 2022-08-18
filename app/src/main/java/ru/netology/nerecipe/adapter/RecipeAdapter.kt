@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.databinding.RecipiesForFeedBinding
 import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
+import ru.netology.nerecipe.ui.FeedFragment
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
 import java.util.*
 
@@ -22,12 +24,15 @@ class RecipeAdapter(
         return RecipeHolder(binding,interactionListener)
     }
 
-    val viewModel = RecipeViewModel()
-    val recipeList: List<RecipeModel>? = viewModel.recipeData.value
+    private val viewModel = RecipeViewModel()
+    private val recipeList = viewModel.recipeData.value?.toMutableList()
 
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
         val recipe = getItem(position)
+        Glide.with(FeedFragment())
+            .load("https://vkusvill.ru/upload/resize/343192/343192_1200x600x70_c.webp")
+            .into(holder.binding.recipeImage)
         holder.bind(recipe)
     }
 
@@ -44,14 +49,9 @@ class RecipeAdapter(
         notifyItemMoved(fromPosition, toPosition)
     }
 
-    override fun onItemDismiss(position: Int) {
-        TODO("Not yet implemented")
-    }
-
-
 
     class RecipeHolder(
-        private val binding : RecipiesForFeedBinding,
+        val binding : RecipiesForFeedBinding,
         listener: InteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private lateinit var recipe: RecipeModel
@@ -63,8 +63,7 @@ class RecipeAdapter(
         }
 
         fun bind(recipe: RecipeModel) = with(binding) {
-            this@RecipeHolder.recipe = recipe
-
+                this@RecipeHolder.recipe = recipe
         }
     }
 

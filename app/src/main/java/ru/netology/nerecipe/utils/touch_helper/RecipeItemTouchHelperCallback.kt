@@ -24,16 +24,16 @@ class RecipeItemTouchHelperCallback(val adapter: RecipeTouchHelperAdapter) :
         return true
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        adapter.onItemDismiss(viewHolder.adapterPosition)
-    }
-
     override fun isLongPressDragEnabled(): Boolean {
         return true
     }
 
     override fun isItemViewSwipeEnabled(): Boolean {
         return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
     }
 
 

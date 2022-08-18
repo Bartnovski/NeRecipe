@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.bumptech.glide.Glide
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.adapter.RecipeAdapter

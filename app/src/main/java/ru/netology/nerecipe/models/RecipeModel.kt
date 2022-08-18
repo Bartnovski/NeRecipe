@@ -11,6 +11,7 @@ import ru.netology.nerecipe.adapter.InteractionListener
 import ru.netology.nerecipe.databinding.StepLayoutBinding
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
 import java.util.*
+import kotlin.collections.ArrayList
 
 class RecipeModel(
     val id: Long,
@@ -25,8 +26,8 @@ class RecipeModel(
         private val interactionListener: InteractionListener
         ) : ListAdapter<Step, StepAdapter.StepHolder>(DiffCallback), RecipeTouchHelperAdapter {
 
-        val viewModel = RecipeViewModel()
-        val stepList: List<Step>? = viewModel.stepData.value
+        private val viewModel = RecipeViewModel()
+        private val stepList = viewModel.stepData.value?.toMutableList()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StepHolder {
             val inflater = LayoutInflater.from(parent.context)
@@ -65,7 +66,7 @@ class RecipeModel(
 
             fun bind(step: Step) = with(binding) {
                 this@StepHolder.step = step
-
+                stepNumber.text = "Шаг ${step.id}"
                 stepContent.text = step.stepContent
                 stepImage.setImageURI(step.stepImagePath)
             }
@@ -91,10 +92,6 @@ class RecipeModel(
                 }
             }
             notifyItemMoved(fromPosition, toPosition)
-        }
-
-        override fun onItemDismiss(position: Int) {
-            TODO("Not yet implemented")
         }
     }
 }

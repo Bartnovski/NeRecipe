@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NeRecipe</string>
+    <string name="add_step">Добавить</string>
+    <string name="step">Шаг </string>
+</resources>
