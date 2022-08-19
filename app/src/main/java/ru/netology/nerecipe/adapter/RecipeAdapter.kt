@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.databinding.RecipiesForFeedBinding
 import ru.netology.nerecipe.models.RecipeModel
-import ru.netology.nerecipe.models.Step
-import ru.netology.nerecipe.ui.FeedFragment
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
 import java.util.*
 
@@ -30,10 +29,10 @@ class RecipeAdapter(
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
         val recipe = getItem(position)
-        Glide.with(FeedFragment())
-            .load("https://vkusvill.ru/upload/resize/343192/343192_1200x600x70_c.webp")
-            .into(holder.binding.recipeImage)
         holder.bind(recipe)
+        Picasso.get()
+            .load(recipe.recipeImagePath)
+            .into(holder.binding.recipeImage)
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {

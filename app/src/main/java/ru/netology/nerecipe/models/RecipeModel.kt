@@ -6,19 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.adapter.InteractionListener
 import ru.netology.nerecipe.databinding.StepLayoutBinding
+import ru.netology.nerecipe.ui.AppActivity
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class RecipeModel(
     val id: Long,
     val recipeName: String,
     val author: String,
     val recipeGroup: String,
-    val recipeImagePath: Uri?,
+    val recipeImagePath: String?,
     val isFavorite: Boolean = false
 ) {
 
@@ -38,6 +40,7 @@ class RecipeModel(
         override fun onBindViewHolder(holder: StepHolder, position: Int) {
             val step = getItem(position)
             holder.bind(step)
+
         }
 
         class StepHolder(
