@@ -4,8 +4,8 @@ import android.net.Uri
 import androidx.room.Embedded
 
 data class Step(
-    val id : Int,
-    val idToRecipe : Int,
+    val id : Long,
+    val idToRecipe : Long,
     val stepContent : String,
     val stepImagePath : String?
 )

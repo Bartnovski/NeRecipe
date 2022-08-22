@@ -5,7 +5,7 @@ import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
 
 interface Repository {
-    val stepData : LiveData<List<Step>>
+    val stepData : LiveData<List<List<Step>>>
     val recipeData : LiveData<List<RecipeModel>>
 
     fun saveStep(step: Step)

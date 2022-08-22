@@ -42,11 +42,13 @@ class RecipeViewModel(
 
      fun onCreateNewStep(step: Step) {
           repository.saveStep(step)
-          onStepEditClickedEvent.value = null
      }
 
      fun onCreateNewRecipe(recipe: RecipeModel) {
           repository.saveRecipe(recipe)
      }
 
+     companion object{
+          var onCreatingRecipe: RecipeModel? = null
+     }
 }

@@ -9,10 +9,10 @@ import androidx.room.PrimaryKey
 class StepEntity (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo(name = "idToRecipe")
-    val idToRecipe: Int,
+    val idToRecipe: Long,
 
     @ColumnInfo(name = "stepContent")
     val stepContent : String,

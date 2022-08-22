@@ -29,7 +29,7 @@
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="@string/recipe_name"/>
+        tools:text="Название рецепта"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
         android:gravity="center"
         android:textSize="14sp"
         android:textStyle="italic"
-        android:text="@string/category"/>
+        tools:text="Категория"/>
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/stepOptions"

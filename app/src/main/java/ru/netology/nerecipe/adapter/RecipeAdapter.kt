@@ -89,6 +89,8 @@ class RecipeAdapter(
 
         fun bind(recipe: RecipeModel) = with(binding) {
                 this@RecipeHolder.recipe = recipe
+            recipeName.text = recipe.recipeName
+            category.text = recipe.category.toString()
             stepOptions.setOnClickListener{ popupMenu.show() }
         }
     }

@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_addEditStepFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_addEditStepFragment_to_feedFragment"
+            app:destination="@id/feedFragment" />
     </fragment>
 
     <fragment

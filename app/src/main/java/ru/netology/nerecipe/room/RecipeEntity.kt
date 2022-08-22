@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 class RecipeEntity (
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "recipeId")
     val id: Long,
 
     @ColumnInfo(name = "recipeName")

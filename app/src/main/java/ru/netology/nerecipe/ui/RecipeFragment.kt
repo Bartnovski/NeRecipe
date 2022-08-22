@@ -13,6 +13,7 @@ import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.adapter.StepAdapter
 import ru.netology.nerecipe.databinding.RecipeLayoutBinding
 import ru.netology.nerecipe.models.RecipeModel
+import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.ui.AddEditStepFragment.Companion.textArg
 import ru.netology.nerecipe.utils.touch_helper.RecipeItemTouchHelperCallback
 
@@ -23,18 +24,27 @@ class RecipeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val recipeBinding = RecipeLayoutBinding.inflate(inflater,container,false)
+        val recipeBinding = RecipeLayoutBinding.inflate(inflater, container, false)
         val viewModel: RecipeViewModel by viewModels(ownerProducer = ::requireParentFragment)
+
+        val stepsForRecipe: List<Step> = emptyList()
+
+        recipeBinding.recipeName.text = viewModel.onContentClickEvent.value?.recipeName
+        recipeBinding.category.text = viewModel.onContentClickEvent.value?.category
+        recipeBinding.author.text = viewModel.onContentClickEvent.value?.author
 
         val adapter = StepAdapter(viewModel)
         recipeBinding.stepRecycler.adapter = adapter
-        viewModel.repository.stepData.observe(viewLifecycleOwner) { step ->
-            adapter.submitList(step)
+        viewModel.repository.stepData.observe(viewLifecycleOwner) { steps ->
+            steps.map {
+                if (viewModel.onContentClickEvent.value!!.id == it.idToRecipe) stepsForRecipe + it
+            }
+            adapter.submitList(stepsForRecipe)
         }
 
         viewModel.onStepEditClickedEvent.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_recipeFragment_to_addEditStepFragment,
-            Bundle().apply { textArg = viewModel.onStepEditClickedEvent.value?.stepContent })
+                Bundle().apply { textArg = viewModel.onStepEditClickedEvent.value?.stepContent })
         }
 
         val callback = RecipeItemTouchHelperCallback(adapter)
