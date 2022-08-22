@@ -12,11 +12,36 @@
         <action
             android:id="@+id/action_feedFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_newRecipeFragment"
+            app:destination="@id/newRecipeFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/recipeFragment"
         android:name="ru.netology.nerecipe.ui.RecipeFragment"
-        android:label="RecipeFragment"
-        tools:layout="@layout/recipe_layout"/>
+        tools:layout="@layout/recipe_layout">
+        <action
+            android:id="@+id/action_recipeFragment_to_addEditStepFragment"
+            app:destination="@id/addEditStepFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditStepFragment"
+        android:name="ru.netology.nerecipe.ui.AddEditStepFragment"
+        tools:layout="@layout/add_edit_step_fragment">
+        <action
+            android:id="@+id/action_addEditStepFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newRecipeFragment"
+        android:name="ru.netology.nerecipe.ui.NewRecipeFragment"
+        tools:layout="@layout/new_recipe_fragment">
+        <action
+            android:id="@+id/action_newRecipeFragment_to_addEditStepFragment"
+            app:destination="@id/addEditStepFragment" />
+    </fragment>
 
 </navigation>

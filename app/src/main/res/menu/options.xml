@@ -2,7 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/addStep"
-        android:title="@string/add_step"/>
+        android:id="@+id/editStep"
+        android:title="@string/edit"/>
+
+    <item
+        android:id="@+id/deleteStep"
+        android:title="@string/delete"/>
 
 </menu>

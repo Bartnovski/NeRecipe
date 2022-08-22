@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NeRecipe</string>
     <string name="add_step">Добавить</string>
-    <string name="step">Шаг </string>
+    <string name="stepNumber">Шаг №</string>
+    <string name="step_description">Описание шага</string>
+    <string name="recipe_name">Название рецепта</string>
+    <string name="category">Категория</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
 </resources>
