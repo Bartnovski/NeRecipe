@@ -51,27 +51,42 @@ class AddEditStepFragment : Fragment() {
         addEditBinding.saveButton.setOnClickListener {
 
             if (!addEditBinding.editContent.text.isNullOrBlank()) {
-
+                // Редактируем шаг
                 if (onClickedStep != null) {
+
                     val step = onClickedStep.copy(
                         stepContent = addEditBinding.editContent.text.toString(),
                         stepImagePath = addEditBinding.stepImage.tag?.toString()
                     )
                     viewModel.repository.updateStep(step)
                     findNavController().navigateUp()
+                        //Добаавляем шаг
+                } else if (RecipeViewModel.onCreatingRecipe == null) {
+
+                    val step = Step(
+                        id = RoomRepository.NEW_ID,
+                        idToRecipe = viewModel.onContentClickEvent.value!!.recipeId,
+                        positionInRecipe = viewModel.repository.getStepPosition(
+                            viewModel.onContentClickEvent.value!!.recipeId),
+                        stepContent = addEditBinding.editContent.text.toString(),
+                        stepImagePath = addEditBinding.stepImage.tag?.toString()
+                    )
+
                 } else {
+                    //Создаём рецепт и добавляем 1 шаг
+                    viewModel.repository.insertRecipe(RecipeViewModel.onCreatingRecipe!!)
                     val step = Step(
                         id = RoomRepository.NEW_ID,
                         idToRecipe = viewModel.repository.getLastRecipeId(),
+                        positionInRecipe = 1,
                         stepContent = addEditBinding.editContent.text.toString(),
                         stepImagePath = addEditBinding.stepImage.tag?.toString()
                     )
                     viewModel.repository.insertStep(step)
-                    viewModel.repository.insertRecipe(RecipeViewModel.onCreatingRecipe!!)
                     RecipeViewModel.onCreatingRecipe = null
                     findNavController().navigate(R.id.action_addEditStepFragment_to_recipeFragment)
-                }
 
+                }
             } else {
                 Snackbar.make(
                     addEditBinding.root,

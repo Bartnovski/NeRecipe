@@ -9,25 +9,23 @@ import ru.netology.nerecipe.models.Step
 import java.util.*
 
 class RoomRepository(
-    private val recipeDao: DAO,
-    private val stepDao: DAO
+    private val recipeDao: DAO
 ) : Repository {
 
-    var steps: LiveData<List<StepEntity>> = recipeDao.getAllRecipes().map { entities ->
-        entities.flatMap {
-            it.steps
-        }
+    override val stepData: LiveData<List<Step>> = recipeDao.getALlSteps().map { list ->
+        list.map { it.toModel() }
     }
 
-    override var recipeData: LiveData<List<RecipeModel>> = recipeDao.getAllRecipes().map { entities ->
-        entities.map { recipes ->
-            recipes.recipes.toModel()
+    override val recipeData: LiveData<List<RecipeModel>> =
+        recipeDao.getAllRecipes().map { entities ->
+            entities.map { recipes ->
+                recipes.recipes.toModel()
+            }
         }
-    }
 
-    override val stepData: LiveData<List<Step>> = steps.map { steps ->
-        steps.map { it.toModel() }
-    }
+//    override val stepData: LiveData<List<Step>> = steps.map { steps ->
+//        steps.map { it.toModel() }
+//    }
 
 //    init {
 //        if (stepData.value.isNullOrEmpty()) {
@@ -88,19 +86,25 @@ class RoomRepository(
 
     override fun insertRecipe(recipe: RecipeModel) = recipeDao.insertRecipe(recipe.toEntity())
 
-    override fun deleteRecipe(recipe: RecipeModel) = recipeDao.deleteRecipe(recipe.recipeId)
+    override fun deleteRecipe(recipe: RecipeModel) {
+        recipeDao.deleteRecipe(recipe.recipeId)
+        recipeDao.deleteRecipeSteps(recipe.recipeId)
+    }
+
+    override fun isFavorite(recipeId: Long) = recipeDao.isFavorite(recipeId)
+
 
     override fun getLastRecipeId() = recipeDao.getLastRecipeId()
 
-    override fun saveStep(step: Step) = stepDao.saveStep(step.toEntity())
+    override fun getStepPosition(idToRecipe: Long): Int = recipeDao.getStepPosition(idToRecipe)
 
-    override fun updateStep(step: Step) = stepDao.updateStep(step.toEntity())
+    override fun updateStep(step: Step) = recipeDao.updateStep(step.toEntity())
 
-    override fun insertStep(step: Step) = stepDao.insertStep(step.toEntity())
+    override fun insertStep(step: Step) = recipeDao.insertStep(step.toEntity())
 
-    override fun deleteStep(step: Step) = stepDao.deleteStep(step.id)
+    override fun deleteStep(step: Step) = recipeDao.deleteStep(step.id)
 
-    companion object{
+    companion object {
         const val NEW_ID = 0L
     }
 }

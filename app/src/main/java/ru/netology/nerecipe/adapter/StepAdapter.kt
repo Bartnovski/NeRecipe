@@ -21,7 +21,6 @@ class StepAdapter(
 
     private val viewModel = RecipeViewModel(Application())
     private val stepList = viewModel.repository.stepData.value?.toMutableList()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StepHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = StepLayoutBinding.inflate(inflater, parent, false)
@@ -48,7 +47,7 @@ class StepAdapter(
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.deleteStep -> {
-                            listener.onDeleteClicked(step)
+                            listener.onStepDeleteClicked(step)
                             true
                         }
                         R.id.editStep -> {
@@ -59,6 +58,10 @@ class StepAdapter(
                     }
                 }
             }
+        }
+
+        init {
+
         }
 
 

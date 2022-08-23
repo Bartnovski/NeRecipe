@@ -1,6 +1,7 @@
 package ru.netology.nerecipe.room
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Embedded
 import androidx.room.Relation
 
@@ -10,5 +11,5 @@ class Recipes (
         parentColumn = "id",
         entityColumn = "idToRecipe"
     )
-    val steps : List<StepEntity>
+    val steps : LiveData<List<StepEntity>>
     )

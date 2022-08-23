@@ -15,13 +15,11 @@ class RecipeViewModel(
 ) : AndroidViewModel(application), InteractionListener {
 
      val repository: Repository = RoomRepository(
-          recipeDao = AppDB.getInstance(context = application).dao,
-          stepDao = AppDB.getInstance(context = application).dao
+          recipeDao = AppDB.getInstance(context = application).dao
      )
 
      val recipeData = repository.recipeData
-
-     private val currentRecipe = (MutableLiveData<RecipeModel?>(null))
+     val stepData = repository.stepData
 
      val onContentClickEvent = SingleLiveEvent<RecipeModel>()
      val onStepEditClickedEvent = SingleLiveEvent<Step?>()
@@ -31,7 +29,7 @@ class RecipeViewModel(
           onContentClickEvent.value = recipe
      }
 
-     override fun onDeleteClicked(step: Step) {
+     override fun onStepDeleteClicked(step: Step) {
           repository.deleteStep(step)
      }
 

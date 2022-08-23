@@ -14,6 +14,9 @@ class StepEntity (
     @ColumnInfo(name = "idToRecipe")
     val idToRecipe: Long,
 
+    @ColumnInfo(name = "positionInRecipe")
+    val positionInRecipe: Int,
+
     @ColumnInfo(name = "stepContent")
     val stepContent : String,
 

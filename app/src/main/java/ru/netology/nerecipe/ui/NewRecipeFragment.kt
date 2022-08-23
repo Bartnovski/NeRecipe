@@ -41,7 +41,7 @@ class NewRecipeFragment :Fragment() {
                         recipeImagePath = if (binding.recipeImage.tag == null) null
                         else binding.recipeImage.tag.toString()
                     )
-                    viewModel.repository.insertRecipe(recipe)
+                    RecipeViewModel.onCreatingRecipe = recipe
                     findNavController().navigate(R.id.action_newRecipeFragment_to_addEditStepFragment)
                 }
             } else {

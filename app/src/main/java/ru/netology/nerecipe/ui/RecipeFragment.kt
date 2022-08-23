@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import ru.netology.nerecipe.R
@@ -31,20 +32,25 @@ class RecipeFragment : Fragment() {
         recipeBinding.category.text = viewModel.onContentClickEvent.value?.category
         recipeBinding.author.text = viewModel.onContentClickEvent.value?.author
 
+
+
         val adapter = StepAdapter(viewModel)
         recipeBinding.stepRecycler.adapter = adapter
-        viewModel.repository.stepData.observe(viewLifecycleOwner) { steps ->
-            val recipeSteps: List<Step> = emptyList()
-            steps.map {
-                if (it.idToRecipe == viewModel.onContentClickEvent.value?.recipeId) recipeSteps + it
-            }
-            adapter.submitList(recipeSteps)
+        viewModel.stepData.observe(viewLifecycleOwner) { steps ->
+            adapter.submitList(steps)
         }
-
 
         viewModel.onStepEditClickedEvent.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_recipeFragment_to_addEditStepFragment,
                 Bundle().apply { textArg = viewModel.onStepEditClickedEvent.value?.stepContent })
+        }
+
+        recipeBinding.isFavorite.setOnClickListener {
+            viewModel.repository.isFavorite(viewModel.onContentClickEvent.value!!.recipeId)
+        }
+
+        recipeBinding.addStep.setOnClickListener {
+            findNavController().navigate(R.id.action_recipeFragment_to_addEditStepFragment)
         }
 
         val callback = RecipeItemTouchHelperCallback(adapter)

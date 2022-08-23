@@ -1,11 +1,19 @@
 package ru.netology.nerecipe.room
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 
 @Dao
 interface DAO {
     @Transaction
+    @Query("SELECT * FROM steps ORDER BY id DESC")
+    fun getALlSteps() : LiveData<List<StepEntity>>
+
+//    @Query("SELECT * FROM steps WHERE idToRecipe = :recipeId ORDER BY id DESC")
+//    fun getStepsInRecipe(recipeId: Long) : LiveData<List<StepEntity>>
+
+
     @Insert(entity = StepEntity::class)
     fun insertStep(step: StepEntity)
 
@@ -14,19 +22,25 @@ interface DAO {
     fun updateStep(step: StepEntity)
 
 
-    fun saveStep(step: StepEntity) {
-        if (step.id == 0L) insertStep(step) else updateStep(step)
-    }
+    @Query("DELETE FROM steps WHERE idToRecipe = :id")
+    fun deleteRecipeSteps(id: Long)
 
     @Query("DELETE FROM steps WHERE id = :id")
     fun deleteStep(id: Long)
 
+    @Query("SELECT MAX(positionInRecipe) FROM steps WHERE idToRecipe = :idToRecipe")
+    fun getStepPosition(idToRecipe: Long) : Int
+
+
+
+
+
 
     @Transaction
-    @Query("SELECT * FROM recipe ORDER BY id DESC")
+    @Query("SELECT * FROM recipe")
     fun getAllRecipes() : LiveData<List<Recipes>>
 
-    @Transaction
+
     @Insert
     fun insertRecipe(recipe: RecipeEntity)
 
@@ -34,10 +48,11 @@ interface DAO {
     @Update
     fun updateRecipe(recipe: RecipeEntity)
 
-
-    fun saveRecipe(recipe: RecipeEntity) {
-        if(recipe.recipeId == 0L) insertRecipe(recipe) else updateRecipe(recipe)
-    }
+    @Query("""UPDATE recipe SET
+                isFavorite = CASE WHEN isFavorite THEN 0 ELSE 1 END
+            WHERE id  = :recipeId
+     """)
+    fun isFavorite(recipeId: Long)
 
     @Query("DELETE  FROM recipe WHERE id = :id")
     fun deleteRecipe(id: Long)
