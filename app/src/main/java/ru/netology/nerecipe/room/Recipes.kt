@@ -1,16 +1,14 @@
 package ru.netology.nerecipe.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.Embedded
 import androidx.room.Relation
-import ru.netology.nerecipe.models.Step
 
-data class Recipes(
-    @Embedded
-    val recipe: RecipeEntity,
-
+class Recipes (
+    @Embedded val recipes : RecipeEntity,
     @Relation(
-        parentColumn = "recipeId",
+        parentColumn = "id",
         entityColumn = "idToRecipe"
     )
     val steps : List<StepEntity>
-)
+    )

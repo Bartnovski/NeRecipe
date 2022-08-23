@@ -1,21 +1,17 @@
 package ru.netology.nerecipe.adapter
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.RecipeViewModel
-import ru.netology.nerecipe.databinding.RecipesForFeedBinding
+import ru.netology.nerecipe.databinding.RecipeFragmentBinding
 import ru.netology.nerecipe.models.RecipeModel
-import ru.netology.nerecipe.models.Step
-import ru.netology.nerecipe.ui.AppActivity
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
 import java.util.*
 
@@ -25,13 +21,12 @@ class RecipeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = RecipesForFeedBinding.inflate(inflater, parent, false)
+        val binding = RecipeFragmentBinding.inflate(inflater, parent, false)
         return RecipeHolder(binding,interactionListener)
     }
 
     private val viewModel = RecipeViewModel(Application())
-    private val recipeList = viewModel.repository.recipeData.value?.toMutableList()
-
+    private val recipeList = viewModel.recipeData.value?.toMutableList()
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
         val recipe = getItem(position)
@@ -56,7 +51,7 @@ class RecipeAdapter(
 
 
     class RecipeHolder(
-        val binding : RecipesForFeedBinding,
+        val binding : RecipeFragmentBinding,
         listener: InteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
         private lateinit var recipe: RecipeModel
@@ -80,7 +75,10 @@ class RecipeAdapter(
             }
         }
 
+
+
         init {
+
             binding.recipeImage.setOnClickListener {
                 listener.showDetailedView(recipe)
             }
@@ -88,7 +86,9 @@ class RecipeAdapter(
         }
 
         fun bind(recipe: RecipeModel) = with(binding) {
-                this@RecipeHolder.recipe = recipe
+            this@RecipeHolder.recipe = recipe
+            recipeName.text = recipe.recipeName
+            category.text = recipe.category
             recipeName.text = recipe.recipeName
             category.text = recipe.category.toString()
             stepOptions.setOnClickListener{ popupMenu.show() }
@@ -98,11 +98,11 @@ class RecipeAdapter(
 
     private object RecipeDiffCallback : DiffUtil.ItemCallback<RecipeModel>() {
         override fun areItemsTheSame(oldItem: RecipeModel, newItem: RecipeModel): Boolean =
-            oldItem.id == newItem.id
+            oldItem.recipeId == newItem.recipeId
 
-        @SuppressLint("DiffUtilEquals")
+
         override fun areContentsTheSame(oldItem: RecipeModel, newItem: RecipeModel): Boolean =
-            oldItem == newItem
+            oldItem.equals(newItem)
     }
 
 }

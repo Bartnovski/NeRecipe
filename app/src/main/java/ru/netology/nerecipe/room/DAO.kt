@@ -5,14 +5,12 @@ import androidx.room.*
 
 @Dao
 interface DAO {
-
-    @Query("SELECT * FROM steps ORDER BY id ASC")
-    fun getAllSteps() : LiveData<List<StepEntity>>
-
-    @Insert
+    @Transaction
+    @Insert(entity = StepEntity::class)
     fun insertStep(step: StepEntity)
 
-    @Update
+    @Transaction
+    @Update(entity = StepEntity::class)
     fun updateStep(step: StepEntity)
 
 
@@ -23,23 +21,27 @@ interface DAO {
     @Query("DELETE FROM steps WHERE id = :id")
     fun deleteStep(id: Long)
 
+
     @Transaction
-    @Query("SELECT * FROM recipe ORDER BY recipeId DESC")
+    @Query("SELECT * FROM recipe ORDER BY id DESC")
     fun getAllRecipes() : LiveData<List<Recipes>>
 
-
+    @Transaction
     @Insert
     fun insertRecipe(recipe: RecipeEntity)
 
-
+    @Transaction
     @Update
     fun updateRecipe(recipe: RecipeEntity)
 
 
     fun saveRecipe(recipe: RecipeEntity) {
-        if(recipe.id == 0L) insertRecipe(recipe) else updateRecipe(recipe)
+        if(recipe.recipeId == 0L) insertRecipe(recipe) else updateRecipe(recipe)
     }
 
-    @Query("DELETE  FROM recipe WHERE recipeId = :id")
+    @Query("DELETE  FROM recipe WHERE id = :id")
     fun deleteRecipe(id: Long)
+
+    @Query("SELECT MAX(id) FROM recipe")
+    fun getLastRecipeId() : Long
 }

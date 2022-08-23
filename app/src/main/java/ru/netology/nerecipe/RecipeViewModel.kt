@@ -19,10 +19,13 @@ class RecipeViewModel(
           stepDao = AppDB.getInstance(context = application).dao
      )
 
+     val recipeData = repository.recipeData
+
      private val currentRecipe = (MutableLiveData<RecipeModel?>(null))
 
      val onContentClickEvent = SingleLiveEvent<RecipeModel>()
      val onStepEditClickedEvent = SingleLiveEvent<Step?>()
+     val onDeleteRecipeClickedEvent = SingleLiveEvent<RecipeModel>()
 
      override fun showDetailedView(recipe: RecipeModel) {
           onContentClickEvent.value = recipe
@@ -40,13 +43,6 @@ class RecipeViewModel(
           onStepEditClickedEvent.value = step
      }
 
-     fun onCreateNewStep(step: Step) {
-          repository.saveStep(step)
-     }
-
-     fun onCreateNewRecipe(recipe: RecipeModel) {
-          repository.saveRecipe(recipe)
-     }
 
      companion object{
           var onCreatingRecipe: RecipeModel? = null

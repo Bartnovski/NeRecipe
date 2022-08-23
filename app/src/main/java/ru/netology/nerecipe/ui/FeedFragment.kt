@@ -39,6 +39,10 @@ class FeedFragment : Fragment() {
             findNavController() .navigate(R.id.action_feedFragment_to_newRecipeFragment)
         }
 
+        viewModel.onDeleteRecipeClickedEvent.observe(viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
+
         val callback = RecipeItemTouchHelperCallback(adapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.recipeRecycler)

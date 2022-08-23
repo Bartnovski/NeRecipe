@@ -13,20 +13,20 @@ class RoomRepository(
     private val stepDao: DAO
 ) : Repository {
 
-    private var steps: LiveData<List<List<StepEntity>>> = recipeDao.getAllRecipes().map { entities ->
-        entities.map { recipes ->
-            recipes.steps
+    var steps: LiveData<List<StepEntity>> = recipeDao.getAllRecipes().map { entities ->
+        entities.flatMap {
+            it.steps
         }
     }
+
     override var recipeData: LiveData<List<RecipeModel>> = recipeDao.getAllRecipes().map { entities ->
         entities.map { recipes ->
-            recipes.recipe.toModel()
+            recipes.recipes.toModel()
         }
     }
-    override val stepData: LiveData<List<List<Step>>> = steps.map { entities ->
-        entities.map { list ->
-            list.map { it.toModel() }
-        }
+
+    override val stepData: LiveData<List<Step>> = steps.map { steps ->
+        steps.map { it.toModel() }
     }
 
 //    init {
@@ -84,14 +84,13 @@ class RoomRepository(
 //    }
 
 
-    override fun saveRecipe(recipe: RecipeModel) = recipeDao.saveRecipe(recipe.toEntity())
-
     override fun updateRecipe(recipe: RecipeModel) = recipeDao.updateRecipe(recipe.toEntity())
 
     override fun insertRecipe(recipe: RecipeModel) = recipeDao.insertRecipe(recipe.toEntity())
 
-    override fun deleteRecipe(recipe: RecipeModel) = recipeDao.deleteRecipe(recipe.id)
+    override fun deleteRecipe(recipe: RecipeModel) = recipeDao.deleteRecipe(recipe.recipeId)
 
+    override fun getLastRecipeId() = recipeDao.getLastRecipeId()
 
     override fun saveStep(step: Step) = stepDao.saveStep(step.toEntity())
 

@@ -16,6 +16,7 @@ import ru.netology.nerecipe.R
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.Repository
 import ru.netology.nerecipe.databinding.AddEditStepFragmentBinding
+import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.room.RoomRepository
 import ru.netology.nerecipe.utils.StringArg
@@ -29,19 +30,19 @@ class AddEditStepFragment : Fragment() {
     ): View {
         val addEditBinding = AddEditStepFragmentBinding.inflate(inflater, container, false)
         val viewModel: RecipeViewModel by viewModels(ownerProducer = ::requireParentFragment)
-        val step = viewModel.onStepEditClickedEvent.value
+        val onClickedStep = viewModel.onStepEditClickedEvent.value
 
-        if ((step?.stepImagePath == null) && (step != null)) {
+        if ((onClickedStep?.stepImagePath == null) && (onClickedStep != null)) {
             addEditBinding.imageHolder.visibility = CardView.GONE
-        } else if (step == null) {
+        } else if (onClickedStep == null) {
             with(addEditBinding.stepImage) {
                 setImageResource(R.drawable.ic_add_image_24dp)
             }
         } else {
-            addEditBinding.stepImage.tag = step.stepImagePath
+            addEditBinding.stepImage.tag = onClickedStep.stepImagePath
             addEditBinding.stepImage.scaleType = ImageView.ScaleType.FIT_XY
             Picasso.get()
-                .load(step.stepImagePath)
+                .load(onClickedStep.stepImagePath)
                 .into(addEditBinding.stepImage)
         }
 
@@ -51,24 +52,24 @@ class AddEditStepFragment : Fragment() {
 
             if (!addEditBinding.editContent.text.isNullOrBlank()) {
 
-                if (step != null) {
-                    val step = step.copy(
+                if (onClickedStep != null) {
+                    val step = onClickedStep.copy(
                         stepContent = addEditBinding.editContent.text.toString(),
                         stepImagePath = addEditBinding.stepImage.tag?.toString()
                     )
-                    viewModel.onCreateNewStep(step)
+                    viewModel.repository.updateStep(step)
                     findNavController().navigateUp()
                 } else {
                     val step = Step(
                         id = RoomRepository.NEW_ID,
-                        idToRecipe = RecipeViewModel.onCreatingRecipe!!.id,
+                        idToRecipe = viewModel.repository.getLastRecipeId(),
                         stepContent = addEditBinding.editContent.text.toString(),
                         stepImagePath = addEditBinding.stepImage.tag?.toString()
                     )
-                    viewModel.onCreateNewStep(step)
-                    viewModel.onCreateNewRecipe(RecipeViewModel.onCreatingRecipe!!)
+                    viewModel.repository.insertStep(step)
+                    viewModel.repository.insertRecipe(RecipeViewModel.onCreatingRecipe!!)
                     RecipeViewModel.onCreatingRecipe = null
-                    findNavController().navigate(R.id.action_addEditStepFragment_to_feedFragment)
+                    findNavController().navigate(R.id.action_addEditStepFragment_to_recipeFragment)
                 }
 
             } else {

@@ -3,7 +3,7 @@ package ru.netology.nerecipe.room
 import ru.netology.nerecipe.models.RecipeModel
 
 internal fun RecipeEntity.toModel() = RecipeModel(
-    id = id,
+    recipeId = recipeId,
     recipeName = recipeName,
     author = author,
     category = category,
@@ -13,7 +13,7 @@ internal fun RecipeEntity.toModel() = RecipeModel(
 )
 
 internal fun RecipeModel.toEntity() = RecipeEntity(
-    id = id,
+    recipeId = recipeId,
     recipeName = recipeName,
     author = author,
     category = category,

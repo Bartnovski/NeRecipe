@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.adapter.StepAdapter
 import ru.netology.nerecipe.databinding.RecipeLayoutBinding
-import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.ui.AddEditStepFragment.Companion.textArg
 import ru.netology.nerecipe.utils.touch_helper.RecipeItemTouchHelperCallback
@@ -27,8 +27,6 @@ class RecipeFragment : Fragment() {
         val recipeBinding = RecipeLayoutBinding.inflate(inflater, container, false)
         val viewModel: RecipeViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
-        val stepsForRecipe: List<Step> = emptyList()
-
         recipeBinding.recipeName.text = viewModel.onContentClickEvent.value?.recipeName
         recipeBinding.category.text = viewModel.onContentClickEvent.value?.category
         recipeBinding.author.text = viewModel.onContentClickEvent.value?.author
@@ -36,11 +34,13 @@ class RecipeFragment : Fragment() {
         val adapter = StepAdapter(viewModel)
         recipeBinding.stepRecycler.adapter = adapter
         viewModel.repository.stepData.observe(viewLifecycleOwner) { steps ->
+            val recipeSteps: List<Step> = emptyList()
             steps.map {
-                if (viewModel.onContentClickEvent.value!!.id == it.idToRecipe) stepsForRecipe + it
+                if (it.idToRecipe == viewModel.onContentClickEvent.value?.recipeId) recipeSteps + it
             }
-            adapter.submitList(stepsForRecipe)
+            adapter.submitList(recipeSteps)
         }
+
 
         viewModel.onStepEditClickedEvent.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_recipeFragment_to_addEditStepFragment,

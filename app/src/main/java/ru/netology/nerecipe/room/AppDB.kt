@@ -23,7 +23,7 @@ abstract class AppDB : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context,AppDB::class.java,"recipes.db")
+            Room.databaseBuilder(context,AppDB::class.java,"app.db")
                 .allowMainThreadQueries().build()
     }
 }

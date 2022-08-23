@@ -21,7 +21,7 @@
             android:name=".ui.AppActivity"
             android:exported="true"
             android:launchMode="singleInstancePerTask"
-            android:noHistory="false"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/navigation"/>
             <intent-filter>
