@@ -67,10 +67,13 @@ class AddEditStepFragment : Fragment() {
                         id = RoomRepository.NEW_ID,
                         idToRecipe = viewModel.onContentClickEvent.value!!.recipeId,
                         positionInRecipe = viewModel.repository.getStepPosition(
-                            viewModel.onContentClickEvent.value!!.recipeId),
+                            viewModel.onContentClickEvent.value!!.recipeId) + 1,
                         stepContent = addEditBinding.editContent.text.toString(),
                         stepImagePath = addEditBinding.stepImage.tag?.toString()
                     )
+
+                    viewModel.repository.insertStep(step)
+                    findNavController().navigateUp()
 
                 } else {
                     //Создаём рецепт и добавляем 1 шаг

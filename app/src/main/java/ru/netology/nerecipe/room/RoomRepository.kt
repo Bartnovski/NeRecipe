@@ -102,7 +102,10 @@ class RoomRepository(
 
     override fun insertStep(step: Step) = recipeDao.insertStep(step.toEntity())
 
-    override fun deleteStep(step: Step) = recipeDao.deleteStep(step.id)
+    override fun deleteStep(step: Step) {
+        recipeDao.deleteStep(step.id)
+        recipeDao.shiftStepsInRecipe(step.positionInRecipe)
+    }
 
     companion object {
         const val NEW_ID = 0L

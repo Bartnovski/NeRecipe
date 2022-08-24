@@ -37,7 +37,9 @@ class RecipeFragment : Fragment() {
         val adapter = StepAdapter(viewModel)
         recipeBinding.stepRecycler.adapter = adapter
         viewModel.stepData.observe(viewLifecycleOwner) { steps ->
-            adapter.submitList(steps)
+            adapter.submitList(steps.filter {
+                 it.idToRecipe == viewModel.onContentClickEvent.value?.recipeId
+            })
         }
 
         viewModel.onStepEditClickedEvent.observe(viewLifecycleOwner) {

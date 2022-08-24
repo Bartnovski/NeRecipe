@@ -67,7 +67,7 @@ class StepAdapter(
 
         fun bind(step: Step) = with(binding) {
             this@StepHolder.step = step
-            stepNumber.text = step.id.toString()
+            stepNumber.text = "Шаг " + step.positionInRecipe.toString()
             stepContent.text = step.stepContent
             stepOptions.setOnClickListener { popupMenu.show() }
         }

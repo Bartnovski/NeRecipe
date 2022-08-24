@@ -11,5 +11,5 @@ class Recipes (
         parentColumn = "id",
         entityColumn = "idToRecipe"
     )
-    val steps : LiveData<List<StepEntity>>
+    val steps :List<StepEntity>
     )

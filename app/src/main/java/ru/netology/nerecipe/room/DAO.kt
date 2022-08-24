@@ -7,7 +7,7 @@ import androidx.room.*
 @Dao
 interface DAO {
     @Transaction
-    @Query("SELECT * FROM steps ORDER BY id DESC")
+    @Query("SELECT * FROM steps ORDER BY id ASC")
     fun getALlSteps() : LiveData<List<StepEntity>>
 
 //    @Query("SELECT * FROM steps WHERE idToRecipe = :recipeId ORDER BY id DESC")
@@ -31,7 +31,11 @@ interface DAO {
     @Query("SELECT MAX(positionInRecipe) FROM steps WHERE idToRecipe = :idToRecipe")
     fun getStepPosition(idToRecipe: Long) : Int
 
-
+    @Query("""
+        UPDATE steps SET positionInRecipe = positionInRecipe - 1
+        WHERE positionInRecipe > :position
+        """)
+    fun shiftStepsInRecipe(position: Int)
 
 
 
@@ -39,7 +43,6 @@ interface DAO {
     @Transaction
     @Query("SELECT * FROM recipe")
     fun getAllRecipes() : LiveData<List<Recipes>>
-
 
     @Insert
     fun insertRecipe(recipe: RecipeEntity)
