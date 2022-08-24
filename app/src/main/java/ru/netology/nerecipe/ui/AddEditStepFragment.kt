@@ -1,11 +1,13 @@
 package ru.netology.nerecipe.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,9 +16,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.RecipeViewModel
-import ru.netology.nerecipe.Repository
+import ru.netology.nerecipe.RecipeViewModel.Companion.PICK_FROM_GALLERY_REQUEST
 import ru.netology.nerecipe.databinding.AddEditStepFragmentBinding
-import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.room.RoomRepository
 import ru.netology.nerecipe.utils.StringArg
@@ -78,6 +79,7 @@ class AddEditStepFragment : Fragment() {
                 } else {
                     //Создаём рецепт и добавляем 1 шаг
                     viewModel.repository.insertRecipe(RecipeViewModel.onCreatingRecipe!!)
+
                     val step = Step(
                         id = RoomRepository.NEW_ID,
                         idToRecipe = viewModel.repository.getLastRecipeId(),

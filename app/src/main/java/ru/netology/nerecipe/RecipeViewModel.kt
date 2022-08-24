@@ -44,5 +44,6 @@ class RecipeViewModel(
 
      companion object{
           var onCreatingRecipe: RecipeModel? = null
+          const val PICK_FROM_GALLERY_REQUEST = 1
      }
 }

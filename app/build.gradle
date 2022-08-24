@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "ru.netology.nerecipe"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -46,10 +46,11 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    implementation "androidx.activity:activity-ktx:1.5.1"
 
-    implementation "androidx.fragment:fragment-ktx:1.5.2"
-    implementation 'androidx.fragment:fragment:1.5.2'
+    implementation "androidx.activity:activity-ktx:1.6.0-beta01"
+    implementation "androidx.activity:activity-compose:1.6.0-beta01"
+
+    implementation 'androidx.fragment:fragment-ktx:1.5.2'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
 
