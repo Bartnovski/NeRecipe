@@ -1,9 +1,15 @@
 package ru.netology.nerecipe
 
 import android.app.Application
+import android.net.Uri
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.core.view.size
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import ru.netology.nerecipe.adapter.InteractionListener
+import ru.netology.nerecipe.databinding.AddEditRecipeFragmentBinding
+import ru.netology.nerecipe.databinding.AddEditStepFragmentBinding
 import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.room.AppDB
@@ -13,6 +19,8 @@ import ru.netology.nerecipe.utils.SingleLiveEvent
 class RecipeViewModel(
      application: Application
 ) : AndroidViewModel(application), InteractionListener {
+
+
 
      val repository: Repository = RoomRepository(
           recipeDao = AppDB.getInstance(context = application).dao
@@ -24,26 +32,94 @@ class RecipeViewModel(
      val onContentClickEvent = SingleLiveEvent<RecipeModel>()
      val onStepEditClickedEvent = SingleLiveEvent<Step?>()
      val onDeleteRecipeClickedEvent = SingleLiveEvent<RecipeModel>()
+     val onRecipeEditClickedEvent = SingleLiveEvent<RecipeModel>()
 
      override fun showDetailedView(recipe: RecipeModel) {
           onContentClickEvent.value = recipe
-     }
-
-     override fun onStepDeleteClicked(step: Step) {
-          repository.deleteStep(step)
      }
 
      override fun onRecipeDeleteClicked(recipe: RecipeModel) {
           repository.deleteRecipe(recipe)
      }
 
+     override fun onRecipeEditClicked(recipe: RecipeModel) {
+          onRecipeEditClickedEvent.value = recipe
+     }
+
+
+
+     fun editRecipe(binding: AddEditRecipeFragmentBinding,linkImageHolder: Uri?) {
+          val recipe = RecipeModel(
+               recipeId = onRecipeEditClickedEvent.value!!.recipeId,
+               recipeName = binding.recipeName.text.toString(),
+               category = binding.category.selectedItem.toString(),
+               author = binding.recipeAuthor.text.toString(),
+               recipeImagePath =  linkImageHolder?.toString() ?: onRecipeEditClickedEvent.value!!.recipeImagePath,
+               isFavorite = onRecipeEditClickedEvent.value!!.isFavorite
+          )
+          repository.updateRecipe(recipe)
+          addingRecipeFlag = false
+     }
+
+     fun preparingNewRecipe(binding: AddEditRecipeFragmentBinding,linkImageHolder: Uri?) {
+          val recipe = RecipeModel(
+               recipeId = RoomRepository.NEW_ID,
+               recipeName = binding.recipeName.text.toString(),
+               author = binding.recipeAuthor.text.toString(),
+               category = binding.category.selectedItem.toString(),
+               recipeImagePath = linkImageHolder?.toString()
+          )
+          onCreatingRecipe = recipe
+          addingRecipeFlag = false
+     }
+
+
+     override fun onStepDeleteClicked(step: Step) {
+          repository.deleteStep(step)
+     }
+
      override fun onEditClicked(step: Step) {
           onStepEditClickedEvent.value = step
+     }
+
+     fun editStep(binding: AddEditStepFragmentBinding,linkImageHolder: Uri?){
+          val step = onStepEditClickedEvent.value!!.copy(
+               stepContent =   binding.editContent.text.toString(),
+               stepImagePath = linkImageHolder?.toString() ?: onStepEditClickedEvent.value!!.stepImagePath
+          )
+          repository.updateStep(step)
+     }
+
+     fun addStep(binding: AddEditStepFragmentBinding,linkImageHolder: Uri?) {
+          val step = Step(
+               id = RoomRepository.NEW_ID,
+               idToRecipe = onContentClickEvent.value!!.recipeId,
+               positionInRecipe = repository.getStepPosition(
+                    onContentClickEvent.value!!.recipeId) + 1,
+               stepContent = binding.editContent.text.toString(),
+               stepImagePath = linkImageHolder.toString()
+          )
+          repository.insertStep(step)
+     }
+
+     fun addRecipeAndFirstStep(binding: AddEditStepFragmentBinding,linkImageHolder: Uri?) {
+          repository.insertRecipe(onCreatingRecipe!!)
+
+          val step = Step(
+               id = RoomRepository.NEW_ID,
+               idToRecipe = repository.getLastRecipeId(),
+               positionInRecipe = 1,
+               stepContent = binding.editContent.text.toString(),
+               stepImagePath = linkImageHolder.toString()
+          )
+          repository.insertStep(step)
+          onCreatingRecipe = null
      }
 
 
      companion object{
           var onCreatingRecipe: RecipeModel? = null
-          const val PICK_FROM_GALLERY_REQUEST = 1
+          var addingStepFlag = false
+          var addingRecipeFlag = false
      }
 }

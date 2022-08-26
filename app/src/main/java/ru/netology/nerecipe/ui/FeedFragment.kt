@@ -14,6 +14,8 @@ import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.adapter.RecipeAdapter
 import ru.netology.nerecipe.databinding.FeedFragmentBinding
 import ru.netology.nerecipe.utils.touch_helper.RecipeItemTouchHelperCallback
+import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
+import java.util.*
 
 class FeedFragment : Fragment() {
 
@@ -27,7 +29,10 @@ class FeedFragment : Fragment() {
 
         val adapter = RecipeAdapter(viewModel)
         binding.recipeRecycler.adapter = adapter
-        viewModel.repository.recipeData.observe(viewLifecycleOwner) { recipe ->
+
+
+
+        viewModel.recipeData.observe(viewLifecycleOwner) { recipe ->
             adapter.submitList(recipe)
         }
 
@@ -36,16 +41,25 @@ class FeedFragment : Fragment() {
         }
 
         binding.addRecipe.setOnClickListener {
-            findNavController() .navigate(R.id.action_feedFragment_to_newRecipeFragment)
+            RecipeViewModel.addingRecipeFlag = true
+            findNavController() .navigate(R.id.action_feedFragment_to_addEditRecipeFragment)
         }
 
         viewModel.onDeleteRecipeClickedEvent.observe(viewLifecycleOwner) {
             findNavController().navigateUp()
         }
 
+        viewModel.onRecipeEditClickedEvent.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_feedFragment_to_addEditRecipeFragment)
+        }
+
         val callback = RecipeItemTouchHelperCallback(adapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.recipeRecycler)
+
+
+
+
 
         return binding.root
     }

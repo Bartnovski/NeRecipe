@@ -3,7 +3,7 @@ package ru.netology.nerecipe.utils.touch_helper
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class RecipeItemTouchHelperCallback(val adapter: RecipeTouchHelperAdapter) :
+class RecipeItemTouchHelperCallback(private val adapter: RecipeTouchHelperAdapter) :
     ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(

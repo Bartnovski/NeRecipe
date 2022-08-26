@@ -1,6 +1,6 @@
 package ru.netology.nerecipe.ui
 
-import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,13 +15,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.RecipeViewModel
-import ru.netology.nerecipe.RecipeViewModel.Companion.PICK_FROM_GALLERY_REQUEST
 import ru.netology.nerecipe.databinding.AddEditStepFragmentBinding
-import ru.netology.nerecipe.models.Step
-import ru.netology.nerecipe.room.RoomRepository
 import ru.netology.nerecipe.utils.StringArg
 
 class AddEditStepFragment : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,66 +28,56 @@ class AddEditStepFragment : Fragment() {
     ): View {
         val addEditBinding = AddEditStepFragmentBinding.inflate(inflater, container, false)
         val viewModel: RecipeViewModel by viewModels(ownerProducer = ::requireParentFragment)
-        val onClickedStep = viewModel.onStepEditClickedEvent.value
+        val onEditClickedStep  = viewModel.onStepEditClickedEvent.value
+        var linkImageHolder: Uri? = null
 
-        if ((onClickedStep?.stepImagePath == null) && (onClickedStep != null)) {
-            addEditBinding.imageHolder.visibility = CardView.GONE
-        } else if (onClickedStep == null) {
-            with(addEditBinding.stepImage) {
-                setImageResource(R.drawable.ic_add_image_24dp)
-            }
-        } else {
-            addEditBinding.stepImage.tag = onClickedStep.stepImagePath
-            addEditBinding.stepImage.scaleType = ImageView.ScaleType.FIT_XY
-            Picasso.get()
-                .load(onClickedStep.stepImagePath)
-                .into(addEditBinding.stepImage)
+
+        Picasso.get()
+            .load(onEditClickedStep?.stepImagePath)
+            .placeholder(R.drawable.ic_add_image_24dp)
+            .into(addEditBinding.stepImage)
+
+        val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+            addEditBinding.stepImage.setImageURI(it)
+            linkImageHolder = it
         }
 
-        arguments?.textArg.let(addEditBinding.editContent::setText)
+        addEditBinding.stepImage.setOnClickListener{
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
+        if (RecipeViewModel.addingStepFlag || RecipeViewModel.addingRecipeFlag) {
+            addEditBinding.stepImage.setImageResource(R.drawable.ic_add_image_24dp)
+            // Заменить иконку на изо по умолчанию
+        }
+
+        arguments?.stepArg.let(addEditBinding.editContent::setText)
 
         addEditBinding.saveButton.setOnClickListener {
 
             if (!addEditBinding.editContent.text.isNullOrBlank()) {
-                // Редактируем шаг
-                if (onClickedStep != null) {
 
-                    val step = onClickedStep.copy(
-                        stepContent = addEditBinding.editContent.text.toString(),
-                        stepImagePath = addEditBinding.stepImage.tag?.toString()
-                    )
-                    viewModel.repository.updateStep(step)
+                // Отредактировали  шаг
+                if (onEditClickedStep != null) {
+
+                    viewModel.editStep(addEditBinding,linkImageHolder)
+                    addEditBinding.stepImage.setImageResource(R.drawable.ic_add_image_24dp)
+                    linkImageHolder = null
                     findNavController().navigateUp()
+
                         //Добаавляем шаг
-                } else if (RecipeViewModel.onCreatingRecipe == null) {
+                } else if (RecipeViewModel.addingStepFlag) {
 
-                    val step = Step(
-                        id = RoomRepository.NEW_ID,
-                        idToRecipe = viewModel.onContentClickEvent.value!!.recipeId,
-                        positionInRecipe = viewModel.repository.getStepPosition(
-                            viewModel.onContentClickEvent.value!!.recipeId) + 1,
-                        stepContent = addEditBinding.editContent.text.toString(),
-                        stepImagePath = addEditBinding.stepImage.tag?.toString()
-                    )
-
-                    viewModel.repository.insertStep(step)
+                    viewModel.addStep(addEditBinding,linkImageHolder)
+                    RecipeViewModel.addingStepFlag = false
+                    linkImageHolder = null
                     findNavController().navigateUp()
 
                 } else {
                     //Создаём рецепт и добавляем 1 шаг
-                    viewModel.repository.insertRecipe(RecipeViewModel.onCreatingRecipe!!)
-
-                    val step = Step(
-                        id = RoomRepository.NEW_ID,
-                        idToRecipe = viewModel.repository.getLastRecipeId(),
-                        positionInRecipe = 1,
-                        stepContent = addEditBinding.editContent.text.toString(),
-                        stepImagePath = addEditBinding.stepImage.tag?.toString()
-                    )
-                    viewModel.repository.insertStep(step)
-                    RecipeViewModel.onCreatingRecipe = null
-                    findNavController().navigate(R.id.action_addEditStepFragment_to_recipeFragment)
-
+                    viewModel.addRecipeAndFirstStep(addEditBinding,linkImageHolder)
+                    linkImageHolder = null
+                    findNavController().navigate(R.id.action_addEditStepFragment_to_feedFragment)
                 }
             } else {
                 Snackbar.make(
@@ -104,6 +91,6 @@ class AddEditStepFragment : Fragment() {
     }
 
     companion object {
-        var Bundle.textArg: String? by StringArg
+        var Bundle.stepArg: String? by StringArg
     }
 }

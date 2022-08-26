@@ -13,8 +13,11 @@
             android:id="@+id/action_feedFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
         <action
-            android:id="@+id/action_feedFragment_to_newRecipeFragment"
-            app:destination="@id/newRecipeFragment" />
+            android:id="@+id/action_feedFragment_to_addEditRecipeFragment"
+            app:destination="@id/addEditRecipeFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_categoryFilter"
+            app:destination="@id/categoryFilter" />
     </fragment>
 
     <fragment
@@ -39,15 +42,19 @@
     </fragment>
 
     <fragment
-        android:id="@+id/newRecipeFragment"
-        android:name="ru.netology.nerecipe.ui.NewRecipeFragment"
-        tools:layout="@layout/new_recipe_fragment">
+        android:id="@+id/addEditRecipeFragment"
+        android:name="ru.netology.nerecipe.ui.AddEditRecipeFragment"
+        tools:layout="@layout/add_edit_recipe_fragment">
         <action
-            android:id="@+id/action_newRecipeFragment_to_addEditStepFragment"
+            android:id="@+id/action_addEditRecipeFragment_to_addEditStepFragment"
             app:destination="@id/addEditStepFragment" />
         <action
-            android:id="@+id/action_newRecipeFragment_to_feedFragment"
+            android:id="@+id/action_addEditRecipeFragment_to_feedFragment"
             app:destination="@id/feedFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/categoryFilter"
+        android:name="ru.netology.nerecipe.ui.CategoryFilter"
+        android:label="CategoryFilter" />
 
 </navigation>

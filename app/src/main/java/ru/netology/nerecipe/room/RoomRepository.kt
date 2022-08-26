@@ -16,12 +16,11 @@ class RoomRepository(
         list.map { it.toModel() }
     }
 
-    override val recipeData: LiveData<List<RecipeModel>> =
-        recipeDao.getAllRecipes().map { entities ->
-            entities.map { recipes ->
-                recipes.recipes.toModel()
-            }
+    override val recipeData: LiveData<List<RecipeModel>> = recipeDao.getAllRecipes().map { list ->
+        list.map { recipes ->
+            recipes.recipes.toModel()
         }
+    }
 
 //    override val stepData: LiveData<List<Step>> = steps.map { steps ->
 //        steps.map { it.toModel() }

@@ -1,26 +1,22 @@
 package ru.netology.nerecipe.adapter
 
-import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.R
-import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.databinding.StepLayoutBinding
 import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
-import java.util.*
 
 class StepAdapter(
     private val interactionListener: InteractionListener
 ) : ListAdapter<Step, StepAdapter.StepHolder>(StepDiffCallback), RecipeTouchHelperAdapter {
 
-    private val viewModel = RecipeViewModel(Application())
-    private val stepList = viewModel.repository.stepData.value?.toMutableList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StepHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = StepLayoutBinding.inflate(inflater, parent, false)
@@ -46,11 +42,11 @@ class StepAdapter(
                 inflate(R.menu.options)
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.deleteStep -> {
+                        R.id.delete -> {
                             listener.onStepDeleteClicked(step)
                             true
                         }
-                        R.id.editStep -> {
+                        R.id.edit -> {
                             listener.onEditClicked(step)
                             true
                         }
@@ -60,16 +56,15 @@ class StepAdapter(
             }
         }
 
-        init {
 
-        }
-
-
-        fun bind(step: Step) = with(binding) {
-            this@StepHolder.step = step
-            stepNumber.text = "Шаг " + step.positionInRecipe.toString()
-            stepContent.text = step.stepContent
-            stepOptions.setOnClickListener { popupMenu.show() }
+        fun bind(step: Step) {
+            with(binding) {
+                this@StepHolder.step = step
+                stepNumber.text = "Шаг " + step.positionInRecipe.toString()
+                stepContent.text = step.stepContent
+                stepOptions.setOnClickListener { popupMenu.show() }
+            }
+            //if (binding.stepImage.id == R.drawable.ic_add_image_24dp) binding.cardImage.visibility = ImageView.GONE
         }
 
     }
@@ -85,12 +80,12 @@ class StepAdapter(
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
-                Collections.swap(stepList, i, i + 1)
+                //TODO
             }
 
         } else {
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(stepList, i, i - 1)
+                //TODO
             }
         }
         notifyItemMoved(fromPosition, toPosition)

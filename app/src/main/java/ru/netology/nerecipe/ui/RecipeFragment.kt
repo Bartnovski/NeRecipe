@@ -6,16 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import ru.netology.nerecipe.R
 import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.adapter.StepAdapter
 import ru.netology.nerecipe.databinding.RecipeLayoutBinding
-import ru.netology.nerecipe.models.Step
-import ru.netology.nerecipe.ui.AddEditStepFragment.Companion.textArg
+import ru.netology.nerecipe.ui.AddEditStepFragment.Companion.stepArg
 import ru.netology.nerecipe.utils.touch_helper.RecipeItemTouchHelperCallback
 
 class RecipeFragment : Fragment() {
@@ -31,7 +28,7 @@ class RecipeFragment : Fragment() {
         recipeBinding.recipeName.text = viewModel.onContentClickEvent.value?.recipeName
         recipeBinding.category.text = viewModel.onContentClickEvent.value?.category
         recipeBinding.author.text = viewModel.onContentClickEvent.value?.author
-
+        recipeBinding.isFavorite.isChecked = viewModel.onContentClickEvent.value!!.isFavorite
 
 
         val adapter = StepAdapter(viewModel)
@@ -44,7 +41,7 @@ class RecipeFragment : Fragment() {
 
         viewModel.onStepEditClickedEvent.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_recipeFragment_to_addEditStepFragment,
-                Bundle().apply { textArg = viewModel.onStepEditClickedEvent.value?.stepContent })
+                Bundle().apply { stepArg = viewModel.onStepEditClickedEvent.value?.stepContent })
         }
 
         recipeBinding.isFavorite.setOnClickListener {
@@ -52,7 +49,14 @@ class RecipeFragment : Fragment() {
         }
 
         recipeBinding.addStep.setOnClickListener {
+            RecipeViewModel.addingStepFlag = true
             findNavController().navigate(R.id.action_recipeFragment_to_addEditStepFragment)
+        }
+
+        recipeBinding.isFavorite.setOnClickListener {
+            viewModel.repository.isFavorite(
+                viewModel.onContentClickEvent.value!!.recipeId
+            )
         }
 
         val callback = RecipeItemTouchHelperCallback(adapter)

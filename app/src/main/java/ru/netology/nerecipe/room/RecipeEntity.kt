@@ -25,6 +25,5 @@ class RecipeEntity (
     val recipeImagePath: String?,
 
     @ColumnInfo(name = "isFavorite")
-    val isFavorite: Boolean,
-
+    val isFavorite: Boolean
 )

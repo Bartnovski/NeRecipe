@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="all">
+        <item
+            android:id="@+id/item1"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Неизвестная кухня" />
+        <item
+            android:id="@+id/item2"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Европейская кухня" />
+        <item
+            android:id="@+id/item3"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Азиатская кухня" />
+        <item
+            android:id="@+id/item4"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Паназиатская кухня" />
+        <item
+            android:id="@+id/item5"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Восточная кухня" />
+        <item
+            android:id="@+id/item6"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Американская кухня" />
+        <item
+            android:id="@+id/item7"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Русская кухня" />
+        <item
+            android:id="@+id/item8"
+            android:checked="true"
+            android:checkable="true"
+            android:icon="@drawable/ic_check_box"
+            android:title="Средиземноморская кухня" />
+    </group>
+</menu>

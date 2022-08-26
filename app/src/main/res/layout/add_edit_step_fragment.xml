@@ -11,33 +11,43 @@
     android:orientation="horizontal">
 
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="start|top"
+        android:windowSoftInputMode="adjustResize"
+        android:inputType="textMultiLine"
         android:hint="Описание шага"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/divider"/>
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/editContent"
+        app:layout_constraintBottom_toTopOf="@id/imageHolder"/>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/imageHolder"
-        android:layout_width="350dp"
-        android:layout_height="250dp"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         android:layout_margin="@dimen/common_spacing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/solianka"
-        app:layout_constraintTop_toBottomOf="@+id/editContent"
-        card_view:cardCornerRadius="16dp">
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        card_view:cardCornerRadius="8dp">
         <ImageView
             android:id="@+id/stepImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:contentDescription="@string/stepImage"
-            android:src="@drawable/ic_add_image_24dp">
+            android:scaleType="fitXY">
         </ImageView>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/saveButton"

@@ -3,6 +3,8 @@ package ru.netology.nerecipe.adapter
 import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -17,7 +19,7 @@ import java.util.*
 
 class RecipeAdapter(
     private val interactionListener: InteractionListener
-) : ListAdapter<RecipeModel,RecipeAdapter.RecipeHolder>(RecipeDiffCallback), RecipeTouchHelperAdapter {
+) : ListAdapter<RecipeModel,RecipeAdapter.RecipeHolder>(RecipeDiffCallback),RecipeTouchHelperAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,25 +27,26 @@ class RecipeAdapter(
         return RecipeHolder(binding,interactionListener)
     }
 
-    private val viewModel = RecipeViewModel(Application())
-    private val recipeList = viewModel.recipeData.value?.toMutableList()
 
     override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
         val recipe = getItem(position)
         holder.bind(recipe)
         Picasso.get()
             .load(recipe.recipeImagePath)
+            .placeholder(R.drawable.ic_add_image_24dp)
+            .error(R.drawable.ic_add_image_24dp)
             .into(holder.binding.recipeImage)
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
+
         if (fromPosition < toPosition) {
             for (i in fromPosition until toPosition) {
-                Collections.swap(recipeList, i, i + 1)
+
             }
         } else {
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(recipeList, i, i - 1)
+
             }
         }
         notifyItemMoved(fromPosition, toPosition)
@@ -61,12 +64,12 @@ class RecipeAdapter(
                 inflate(R.menu.options)
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
-                        R.id.deleteStep -> {
+                        R.id.delete -> {
                             listener.onRecipeDeleteClicked(recipe)
                             true
                         }
-                        R.id.editStep -> {
-                            listener.onRecipeDeleteClicked(recipe)
+                        R.id.edit -> {
+                            listener.onRecipeEditClicked(recipe)
                             true
                         }
                         else -> false
@@ -88,10 +91,12 @@ class RecipeAdapter(
         fun bind(recipe: RecipeModel) = with(binding) {
             this@RecipeHolder.recipe = recipe
             recipeName.text = recipe.recipeName
-            category.text = recipe.category
-            recipeName.text = recipe.recipeName
             category.text = recipe.category.toString()
             stepOptions.setOnClickListener{ popupMenu.show() }
+        }
+
+        companion object{
+            val recipe = this
         }
     }
 

@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/recipeName"
         android:padding="4dp"
+        android:background="#C8E6C9"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/isFavorite"
@@ -25,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="#C8E6C9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeName"
         app:layout_constraintEnd_toStartOf="@+id/isFavorite"
@@ -33,15 +35,18 @@
         android:textStyle="italic"
         android:text="группа"/>
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/isFavorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.AppTheme.Icons"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
-        android:layout_margin="@dimen/common_spacing"
-        android:src="@drawable/ic_baseline_star_border_36dp"/>
+        android:checkable="true"
+        app:icon="@drawable/ic_baseline_star_36"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/headerDivider"
@@ -55,6 +60,7 @@
         android:id="@+id/recyclerHolder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/food_illustration"
         app:layout_constraintTop_toBottomOf="@+id/headerDivider"
         app:layout_constraintBottom_toTopOf="@+id/footerDivider">
 
@@ -62,6 +68,7 @@
         android:id="@+id/stepRecycler"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="parent"
+        tools:listitem="@layout/step_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
@@ -80,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:background="#C8E6C9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="16sp"
