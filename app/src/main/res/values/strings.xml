@@ -10,4 +10,12 @@
     <string name="category">Category</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="recipeName">Название рецепта</string>
+    <string name="author">Автор</string>
+    <string name="floating_button">Floating button</string>
+    <string name="stepDiscription">Описание шага</string>
+    <string name="search">поиск</string>
+    <string name="cuisineFilter">Фильтр кухни</string>
+    <string name="logo">Logo</string>
+    <string name="group">группа</string>
 </resources>
