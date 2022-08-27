@@ -1,7 +1,7 @@
 package ru.netology.nerecipe.models
 
 
-class RecipeModel(
+data class RecipeModel(
     val recipeId: Long,
     val recipeName: String,
     val author: String,

@@ -44,7 +44,11 @@ class AddEditRecipeFragment : Fragment() {
             binding.recipeAuthor.setText(viewModel.onRecipeEditClickedEvent.value?.author)
             binding.accept.setImageResource(R.drawable.ic_ok_24dp)
 
-        } else binding.accept.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24)
+        } else {
+            binding.accept.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24)
+            binding.recipeImage.setImageResource(R.drawable.ic_logo)
+            binding.recipeImage.scaleType = ImageView.ScaleType.FIT_CENTER
+        }
 
         val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
             binding.recipeImage.setImageURI(it)
@@ -80,8 +84,8 @@ class AddEditRecipeFragment : Fragment() {
     private fun getSpinnerItemPosition(spinner: Spinner, category: String): Int {
         val adapter = ArrayAdapter.createFromResource(
             this.requireContext(), R.array.cuisineCategory, android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
         return adapter.getPosition(category)
     }

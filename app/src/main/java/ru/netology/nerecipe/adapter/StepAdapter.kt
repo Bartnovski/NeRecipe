@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.R
+import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.databinding.StepLayoutBinding
 import ru.netology.nerecipe.models.Step
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
@@ -25,10 +26,11 @@ class StepAdapter(
 
     override fun onBindViewHolder(holder: StepHolder, position: Int) {
         val step = getItem(position)
-        holder.bind(step)
+
         Picasso.get()
             .load(step.stepImagePath)
             .into(holder.binding.stepImage)
+        holder.bind(step)
     }
 
     class StepHolder(
@@ -48,6 +50,7 @@ class StepAdapter(
                         }
                         R.id.edit -> {
                             listener.onEditClicked(step)
+                            RecipeViewModel.editStepFlag = true
                             true
                         }
                         else -> false
@@ -56,38 +59,29 @@ class StepAdapter(
             }
         }
 
-
         fun bind(step: Step) {
+            if (step.stepImagePath.isNullOrBlank()) binding.cardImage.visibility = ImageView.GONE
+            else binding.cardImage.visibility = ImageView.VISIBLE
             with(binding) {
                 this@StepHolder.step = step
                 stepNumber.text = "Шаг " + step.positionInRecipe.toString()
                 stepContent.text = step.stepContent
                 stepOptions.setOnClickListener { popupMenu.show() }
             }
-            //if (binding.stepImage.id == R.drawable.ic_add_image_24dp) binding.cardImage.visibility = ImageView.GONE
         }
 
     }
 
     private object StepDiffCallback : DiffUtil.ItemCallback<Step>() {
         override fun areItemsTheSame(oldItem: Step, newItem: Step): Boolean =
-            oldItem.id == newItem.id
+            oldItem.stepId == newItem.stepId
 
         override fun areContentsTheSame(oldItem: Step, newItem: Step): Boolean =
             oldItem == newItem
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                //TODO
-            }
-
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-                //TODO
-            }
-        }
+        interactionListener.moveSteps(this.getItem(fromPosition),this.getItem(toPosition))
         notifyItemMoved(fromPosition, toPosition)
     }
 }

@@ -1,7 +1,7 @@
 package ru.netology.nerecipe.models
 
 data class Step(
-    val id : Long,
+    val stepId : Long,
     val idToRecipe : Long,
     val positionInRecipe : Int,
     val stepContent : String,

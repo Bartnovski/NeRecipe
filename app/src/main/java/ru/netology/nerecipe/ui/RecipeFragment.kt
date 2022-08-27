@@ -25,11 +25,12 @@ class RecipeFragment : Fragment() {
         val recipeBinding = RecipeLayoutBinding.inflate(inflater, container, false)
         val viewModel: RecipeViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
-        recipeBinding.recipeName.text = viewModel.onContentClickEvent.value?.recipeName
-        recipeBinding.category.text = viewModel.onContentClickEvent.value?.category
-        recipeBinding.author.text = viewModel.onContentClickEvent.value?.author
-        recipeBinding.isFavorite.isChecked = viewModel.onContentClickEvent.value!!.isFavorite
-
+        with(recipeBinding) {
+            recipeName.text = viewModel.onContentClickEvent.value?.recipeName
+            category.text = viewModel.onContentClickEvent.value?.category
+            author.text = viewModel.onContentClickEvent.value?.author
+            isFavorite.isChecked = viewModel.onContentClickEvent.value!!.isFavorite
+        }
 
         val adapter = StepAdapter(viewModel)
         recipeBinding.stepRecycler.adapter = adapter

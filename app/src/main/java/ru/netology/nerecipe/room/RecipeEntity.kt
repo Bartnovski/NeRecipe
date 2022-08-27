@@ -1,7 +1,6 @@
 package ru.netology.nerecipe.room
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,7 +8,7 @@ import androidx.room.PrimaryKey
 class RecipeEntity (
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "recipeId")
     val recipeId: Long,
 
     @ColumnInfo(name = "recipeName")

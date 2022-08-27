@@ -3,7 +3,7 @@ package ru.netology.nerecipe.room
 import ru.netology.nerecipe.models.Step
 
 internal fun StepEntity.toModel() = Step(
-    id = id,
+    stepId = stepId,
     idToRecipe = idToRecipe,
     positionInRecipe = positionInRecipe,
     stepContent = stepContent,
@@ -11,7 +11,7 @@ internal fun StepEntity.toModel() = Step(
 )
 
 internal fun Step.toEntity() = StepEntity(
-    id = id,
+    stepId = stepId,
     idToRecipe = idToRecipe,
     positionInRecipe = positionInRecipe,
     stepContent = stepContent,

@@ -1,25 +1,21 @@
 package ru.netology.nerecipe.adapter
 
-import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.netology.nerecipe.R
-import ru.netology.nerecipe.RecipeViewModel
 import ru.netology.nerecipe.databinding.RecipeFragmentBinding
 import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.utils.touch_helper.RecipeTouchHelperAdapter
-import java.util.*
 
 class RecipeAdapter(
     private val interactionListener: InteractionListener
 ) : ListAdapter<RecipeModel,RecipeAdapter.RecipeHolder>(RecipeDiffCallback),RecipeTouchHelperAdapter {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -39,16 +35,7 @@ class RecipeAdapter(
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int) {
-
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-
-            }
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-
-            }
-        }
+        interactionListener.moveRecipes(this.getItem(fromPosition),this.getItem(toPosition))
         notifyItemMoved(fromPosition, toPosition)
     }
 
@@ -86,12 +73,18 @@ class RecipeAdapter(
                 listener.showDetailedView(recipe)
             }
 
+            binding.favorite.setOnClickListener {
+                binding.favorite.isChecked = !recipe.isFavorite
+                listener.isFavoriteClicked(recipe)
+            }
+
         }
 
         fun bind(recipe: RecipeModel) = with(binding) {
             this@RecipeHolder.recipe = recipe
             recipeName.text = recipe.recipeName
-            category.text = recipe.category.toString()
+            category.text = recipe.category
+            binding.favorite.isChecked = recipe.isFavorite
             stepOptions.setOnClickListener{ popupMenu.show() }
         }
 
@@ -107,7 +100,7 @@ class RecipeAdapter(
 
 
         override fun areContentsTheSame(oldItem: RecipeModel, newItem: RecipeModel): Boolean =
-            oldItem.equals(newItem)
+            oldItem == newItem
     }
 
 }

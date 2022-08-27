@@ -1,7 +1,6 @@
 package ru.netology.nerecipe
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
 
@@ -18,6 +17,8 @@ interface Repository {
     fun deleteRecipe(recipe: RecipeModel)
     fun isFavorite(recipeId: Long)
 
+    fun moveRecipe(from: RecipeModel,to: RecipeModel)
+    fun moveSteps(from: Step,to: Step)
     fun getLastRecipeId() : Long
-    fun getStepPosition(idToRecipe: Long) : Int
+    fun getStepMaxPosition(idToRecipe: Long) : Int
 }

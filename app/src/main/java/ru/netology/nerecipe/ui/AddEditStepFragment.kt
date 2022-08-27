@@ -31,11 +31,19 @@ class AddEditStepFragment : Fragment() {
         val onEditClickedStep  = viewModel.onStepEditClickedEvent.value
         var linkImageHolder: Uri? = null
 
+            if (RecipeViewModel.editStepFlag) {
+                Picasso.get()
+                    .load(onEditClickedStep?.stepImagePath)
+                    .placeholder(R.drawable.ic_logo)
+                    .into(addEditBinding.stepImage)
 
-        Picasso.get()
-            .load(onEditClickedStep?.stepImagePath)
-            .placeholder(R.drawable.ic_add_image_24dp)
-            .into(addEditBinding.stepImage)
+            } else  {
+                Picasso.get()
+                    .load(R.drawable.ic_logo)
+                    .placeholder(R.drawable.ic_logo)
+                    .into(addEditBinding.stepImage)
+                addEditBinding.stepImage.scaleType = ImageView.ScaleType.FIT_CENTER
+            }
 
         val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
             addEditBinding.stepImage.setImageURI(it)
@@ -46,9 +54,9 @@ class AddEditStepFragment : Fragment() {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
-        if (RecipeViewModel.addingStepFlag || RecipeViewModel.addingRecipeFlag) {
-            addEditBinding.stepImage.setImageResource(R.drawable.ic_add_image_24dp)
-            // Заменить иконку на изо по умолчанию
+        if (RecipeViewModel.addingRecipeFlag || RecipeViewModel.addingStepFlag) {
+            addEditBinding.stepImage.setImageResource(R.drawable.ic_logo)
+            addEditBinding.stepImage.scaleType = ImageView.ScaleType.FIT_CENTER
         }
 
         arguments?.stepArg.let(addEditBinding.editContent::setText)
@@ -57,11 +65,10 @@ class AddEditStepFragment : Fragment() {
 
             if (!addEditBinding.editContent.text.isNullOrBlank()) {
 
-                // Отредактировали  шаг
-                if (onEditClickedStep != null) {
+                // Редактирование шага
+                if (RecipeViewModel.editStepFlag) {
 
                     viewModel.editStep(addEditBinding,linkImageHolder)
-                    addEditBinding.stepImage.setImageResource(R.drawable.ic_add_image_24dp)
                     linkImageHolder = null
                     findNavController().navigateUp()
 

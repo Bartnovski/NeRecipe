@@ -2,11 +2,7 @@ package ru.netology.nerecipe
 
 import android.app.Application
 import android.net.Uri
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import androidx.core.view.size
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import ru.netology.nerecipe.adapter.InteractionListener
 import ru.netology.nerecipe.databinding.AddEditRecipeFragmentBinding
 import ru.netology.nerecipe.databinding.AddEditStepFragmentBinding
@@ -46,7 +42,11 @@ class RecipeViewModel(
           onRecipeEditClickedEvent.value = recipe
      }
 
+     override fun isFavoriteClicked(recipe: RecipeModel) = repository.isFavorite(recipe.recipeId)
 
+     override fun moveRecipes(from: RecipeModel,to: RecipeModel) = repository.moveRecipe(from,to)
+
+     override fun moveSteps(from: Step, to: Step) = repository.moveSteps(from,to)
 
      fun editRecipe(binding: AddEditRecipeFragmentBinding,linkImageHolder: Uri?) {
           val recipe = RecipeModel(
@@ -88,13 +88,14 @@ class RecipeViewModel(
                stepImagePath = linkImageHolder?.toString() ?: onStepEditClickedEvent.value!!.stepImagePath
           )
           repository.updateStep(step)
+          editStepFlag = false
      }
 
      fun addStep(binding: AddEditStepFragmentBinding,linkImageHolder: Uri?) {
           val step = Step(
-               id = RoomRepository.NEW_ID,
+               stepId = RoomRepository.NEW_ID,
                idToRecipe = onContentClickEvent.value!!.recipeId,
-               positionInRecipe = repository.getStepPosition(
+               positionInRecipe = repository.getStepMaxPosition(
                     onContentClickEvent.value!!.recipeId) + 1,
                stepContent = binding.editContent.text.toString(),
                stepImagePath = linkImageHolder.toString()
@@ -106,7 +107,7 @@ class RecipeViewModel(
           repository.insertRecipe(onCreatingRecipe!!)
 
           val step = Step(
-               id = RoomRepository.NEW_ID,
+               stepId = RoomRepository.NEW_ID,
                idToRecipe = repository.getLastRecipeId(),
                positionInRecipe = 1,
                stepContent = binding.editContent.text.toString(),
@@ -114,6 +115,7 @@ class RecipeViewModel(
           )
           repository.insertStep(step)
           onCreatingRecipe = null
+          addingRecipeFlag = false
      }
 
 
@@ -121,5 +123,6 @@ class RecipeViewModel(
           var onCreatingRecipe: RecipeModel? = null
           var addingStepFlag = false
           var addingRecipeFlag = false
+          var editStepFlag = false
      }
 }

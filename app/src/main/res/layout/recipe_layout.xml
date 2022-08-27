@@ -19,7 +19,7 @@
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Название рецепта"/>
+        android:text="@string/recipe_name"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/category"
@@ -33,18 +33,17 @@
         android:paddingBottom="4dp"
         android:textSize="18sp"
         android:textStyle="italic"
-        android:text="группа"/>
+        android:text="@string/group"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/isFavorite"
         style="@style/Widget.AppTheme.Icons"
-        android:layout_width="64dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:iconGravity="textStart"
         android:checkable="true"
+        android:background="@android:color/transparent"
         app:icon="@drawable/ic_baseline_star_36"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,6 +96,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addStep"
+        android:contentDescription="@string/floating_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
