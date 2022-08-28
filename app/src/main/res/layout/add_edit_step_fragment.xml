@@ -27,7 +27,7 @@
         android:gravity="start|top"
         android:windowSoftInputMode="adjustResize"
         android:inputType="textMultiLine"
-        android:background="#C8E6C9"
+        android:background="@color/deep_orange_50"
         android:hint="@string/stepDiscription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/barrier" />

@@ -4,15 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
     android:layout_width="match_parent"
     android:orientation="vertical">
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxWidth="400dp"
+        android:maxLines="2"
         android:id="@+id/recipeName"
         android:padding="4dp"
-        android:background="#C8E6C9"
+        android:background="@color/orange_100"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/isFavorite"
@@ -26,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#C8E6C9"
+        android:background="@color/orange_100"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeName"
         app:layout_constraintEnd_toStartOf="@+id/isFavorite"
@@ -45,7 +50,7 @@
         android:background="@android:color/transparent"
         app:icon="@drawable/ic_baseline_star_36"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/headerDivider" />
 
     <View
         android:id="@+id/headerDivider"
@@ -86,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:background="#C8E6C9"
+        android:background="@color/orange_100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="16sp"

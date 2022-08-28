@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/common_spacing"
-    app:cardBackgroundColor="#FFEFD5"
+    app:cardBackgroundColor="@color/orange_50"
     app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,15 +28,19 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/recipeName"
-            android:layout_width="match_parent"
+            android:ellipsize="end"
+            android:maxWidth="200dp"
+            android:maxLines="2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
             android:padding="2dp"
             android:text="@string/recipe_name"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/category"
             app:layout_constraintStart_toEndOf="@+id/logo"
+            app:layout_constraintEnd_toStartOf="@id/stepOptions"
             app:layout_constraintTop_toTopOf="@+id/logo" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -50,7 +54,8 @@
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="@+id/logo"
             app:layout_constraintStart_toEndOf="@+id/logo"
-            app:layout_constraintTop_toBottomOf="@+id/recipeName" />
+            app:layout_constraintTop_toBottomOf="@+id/recipeName"
+            app:layout_constraintEnd_toStartOf="@id/stepOptions"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/stepOptions"
@@ -66,6 +71,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.cardview.widget.CardView
+            style="@style/CardView.Light"
             android:layout_width="300dp"
             android:layout_height="200dp"
             android:layout_marginBottom="50dp"
@@ -77,24 +83,24 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/recipeImage"
+                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/stepImage"
-                android:scaleType="fitXY"
                 tools:src="@drawable/solianka"/>
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/favorite"
             style="@style/Widget.AppTheme.Icons"
-            app:iconGravity="end"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@android:color/transparent"
             android:checkable="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_baseline_star_36"
+            app:iconGravity="end"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:icon="@drawable/ic_baseline_star_36"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

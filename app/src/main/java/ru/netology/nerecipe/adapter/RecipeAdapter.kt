@@ -2,6 +2,7 @@ package ru.netology.nerecipe.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -29,8 +30,7 @@ class RecipeAdapter(
         holder.bind(recipe)
         Picasso.get()
             .load(recipe.recipeImagePath)
-            .placeholder(R.drawable.ic_add_image_24dp)
-            .error(R.drawable.ic_add_image_24dp)
+            .placeholder(R.drawable.ic_logo)
             .into(holder.binding.recipeImage)
     }
 

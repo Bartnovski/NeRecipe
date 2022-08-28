@@ -60,7 +60,7 @@ class StepAdapter(
         }
 
         fun bind(step: Step) {
-            if (step.stepImagePath.isNullOrBlank()) binding.cardImage.visibility = ImageView.GONE
+            if (step.stepImagePath.isNullOrEmpty()) binding.cardImage.visibility = ImageView.GONE
             else binding.cardImage.visibility = ImageView.VISIBLE
             with(binding) {
                 this@StepHolder.step = step
