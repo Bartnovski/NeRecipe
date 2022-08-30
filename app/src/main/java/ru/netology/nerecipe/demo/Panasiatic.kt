@@ -12,7 +12,7 @@ val recipePan = RecipeModel(
 )
 
 val listOfLinksPan = listOf(
-    "Ингридиенты",
+    "null",
 
     "https://www.gastronom.ru/binfiles/images/20220623/b4e57d43.jpeg",
 

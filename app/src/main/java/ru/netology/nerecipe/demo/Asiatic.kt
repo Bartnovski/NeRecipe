@@ -12,7 +12,7 @@ val recipeAs = RecipeModel(
 )
 
 val listOfLinksAs = listOf(
-    "Ингридиенты",
+    "null",
 
     "https://img1.russianfood.com/dycontent/images_upl/473/sm_472510.jpg",
 

@@ -13,7 +13,7 @@ val recipeEv = RecipeModel(
 )
 
 val listOfLinksEv = listOf(
-    "Ингридиенты",
+    "null",
 
     "https://eda.ru/img/eda/c434x295/s1.eda.ru/StaticContent/Photos/110810174633/170313203520/p_O.png",
 

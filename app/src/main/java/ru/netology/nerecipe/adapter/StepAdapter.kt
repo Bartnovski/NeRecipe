@@ -60,8 +60,7 @@ class StepAdapter(
         }
 
         fun bind(step: Step) {
-            if (step.stepImagePath.isNullOrEmpty()) binding.cardImage.visibility = ImageView.GONE
-            else binding.cardImage.visibility = ImageView.VISIBLE
+            if (step.stepImagePath == "null") binding.cardImage.visibility = ImageView.GONE
             with(binding) {
                 this@StepHolder.step = step
                 stepNumber.text = "Шаг " + step.positionInRecipe.toString()
