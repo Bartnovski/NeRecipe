@@ -11,5 +11,14 @@ class AppActivity : AppCompatActivity() {
         val binding = ActivityAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val sharedPref = getPreferences(MODE_PRIVATE)
+        hasNotEmptyDb = sharedPref.getBoolean("dbIsPresent",false)
+
+
+
+    }
+
+    companion object{
+        var hasNotEmptyDb = false
     }
 }

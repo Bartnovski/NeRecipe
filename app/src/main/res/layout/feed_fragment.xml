@@ -7,29 +7,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/food_illustration_2"
+    android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
-            style="@style/Theme.Material3.DynamicColors.DayNight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:layout_constraintTop_toTopOf="parent"
-            app:liftOnScroll="false">
+            app:liftOnScroll="true">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="end"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:menu="@menu/top_app_bar"
-                app:navigationIcon="@drawable/ic_baseline_filter_menu_24"
+                app:titleTextColor="@color/orange_50"
                 app:title="Рецепты" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -42,67 +42,136 @@
             android:layout_marginEnd="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
             tools:listitem="@layout/recipe_fragment" />
 
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:backgroundTint="@color/brown_400"
+            app:hideOnScroll="true"
+            app:fabAlignmentMode="end"
+            app:menu="@menu/bottom_app_bar"
+            app:layout_scrollFlags="scroll|enterAlways">
 
 
-
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:backgroundTint="@color/brown_400"
-                app:hideOnScroll="true"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    app:tabSelectedTextColor="@color/deep_orange_50">
-
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Все рецепты" />
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Избранное" />
-
-                </com.google.android.material.tabs.TabLayout>
-
-            </com.google.android.material.bottomappbar.BottomAppBar>
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addRecipe"
             style="@style/ThemeOverlay.Material3.FloatingActionButton.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_marginEnd="@dimen/common_spacing"
-            android:layout_marginBottom="40dp"
+
             android:contentDescription="@string/floating_button"
             android:elevation="0dp"
-            android:layout_gravity="bottom|end"
-            app:showMotionSpec="@anim/nav_default_exit_anim"
-            android:src="@drawable/ic_baseline_add_24"/>
+            app:layout_anchor="@id/bottomAppBar"
+            android:src="@drawable/ic_baseline_add_24"
+            app:showMotionSpec="@anim/nav_default_exit_anim" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.navigation.NavigationView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/drawer"
-        style="@style/ShapeAppearance.Material3.NavigationBarView.ActiveIndicator"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/title_drawer"
-        app:menu="@menu/category_drawer">
+        android:background="@color/orange_50"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-    </com.google.android.material.navigation.NavigationView>
+        <TextView
+            android:id="@+id/drawerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+            android:text="Выбор кухни"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textColor="@color/brown_400"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/unknownCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="54dp"
+            android:checked="true"
+            android:tag="Неизвестная кухня"
+            android:text="Неизвестная кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drawerTitle" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/europeanCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="Европейская кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/unknownCuisine" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/asiaticCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="Азиатская кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/europeanCuisine" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/panasiaticCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="Паназиатская кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/asiaticCuisine" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/easternCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="Восточная кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/panasiaticCuisine" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/americanCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="Американская кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/easternCuisine" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/russianCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="Русская кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/americanCuisine" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/mediterranianCuisine"
+            style="@style/Drawer"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="Средиземноморская кухня"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/russianCuisine" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
 

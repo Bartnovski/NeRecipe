@@ -15,7 +15,8 @@
     <string name="floating_button">Floating button</string>
     <string name="stepDiscription">Описание шага</string>
     <string name="search">поиск</string>
-    <string name="cuisineFilter">Фильтр кухни</string>
+    <string name="cuisinePicker">Выбор кухни</string>
     <string name="logo">Logo</string>
     <string name="group">группа</string>
+    <string name="filter">фильтр</string>
 </resources>

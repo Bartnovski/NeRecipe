@@ -34,7 +34,7 @@ class AddEditRecipeFragment : Fragment() {
         if (!RecipeViewModel.addingRecipeFlag) {
             Picasso.get()
                 .load(viewModel.onRecipeEditClickedEvent.value?.recipeImagePath)
-                .placeholder(R.drawable.ic_add_image_24dp)
+                .placeholder(R.drawable.ic_logo)
                 .into(binding.recipeImage)
             binding.category.setSelection(
                 getSpinnerItemPosition(binding.category,viewModel.onRecipeEditClickedEvent.value!!.category)

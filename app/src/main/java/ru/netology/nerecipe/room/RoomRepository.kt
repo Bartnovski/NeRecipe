@@ -7,6 +7,7 @@ import ru.netology.nerecipe.Repository
 import ru.netology.nerecipe.demo.*
 import ru.netology.nerecipe.models.RecipeModel
 import ru.netology.nerecipe.models.Step
+import ru.netology.nerecipe.ui.AppActivity
 
 class RoomRepository(
     private val recipeDao: DAO
@@ -21,37 +22,37 @@ class RoomRepository(
         list.map { it.toModel() }
     }
 
-//    init {
-//
-//        if (recipeData.value.isNullOrEmpty()) {
-//            val demoRecipes = listOf(recipeEv, recipeAs, recipePan)
-//            demoRecipes.forEach { recipe ->
-//                recipeDao.insertRecipe(recipe.toEntity())
-//            }
-//            MutableLiveData(demoRecipes)
-//        }
-//
-//        if (stepData.value.isNullOrEmpty()) {
-//            val demoSteps =
-//                List(listOfStepsEv.size + listOfStepsAs.size + listOfStepsPan.size) { index ->
-//                    Step(
-//                        stepId = index + 1L,
-//                        idToRecipe = if (index < listOfStepsEv.size) recipeEv.recipeId
-//                        else if ((index >= listOfStepsEv.size) &&
-//                            (index < listOfStepsEv.size + listOfStepsAs.size)
-//                        ) recipeAs.recipeId
-//                        else recipePan.recipeId,
-//                        positionInRecipe = RoomRepository.stepPosition(index) + 1,
-//                        stepContent = getContent(index),
-//                        stepImagePath = getLink(index)
-//                    )
-//                }
-//            demoSteps.forEach { step ->
-//                recipeDao.insertStep(step.toEntity())
-//            }
-//            MutableLiveData(demoSteps)
-//        }
-//    }
+
+
+    init {
+        if (!AppActivity.hasNotEmptyDb) {
+
+            val demoRecipes = listOf(recipeEv, recipeAs, recipePan)
+            demoRecipes.forEach { recipe ->
+                recipeDao.insertRecipe(recipe.toEntity())
+            }
+            MutableLiveData(demoRecipes)
+
+            val demoSteps =
+                List(listOfStepsEv.size + listOfStepsAs.size + listOfStepsPan.size) { index ->
+                    Step(
+                        stepId = index + 1L,
+                        idToRecipe = if (index < listOfStepsEv.size) recipeEv.recipeId
+                        else if ((index >= listOfStepsEv.size) &&
+                            (index < listOfStepsEv.size + listOfStepsAs.size)
+                        ) recipeAs.recipeId
+                        else recipePan.recipeId,
+                        positionInRecipe = stepPosition(index) + 1,
+                        stepContent = getContent(index),
+                        stepImagePath = getLink(index)
+                    )
+                }
+            demoSteps.forEach { step ->
+                recipeDao.insertStep(step.toEntity())
+            }
+            MutableLiveData(demoSteps)
+        }
+    }
 
 
     override fun updateRecipe(recipe: RecipeModel) = recipeDao.updateRecipe(recipe.toEntity())

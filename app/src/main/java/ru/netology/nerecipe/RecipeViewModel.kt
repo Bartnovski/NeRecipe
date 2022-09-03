@@ -16,15 +16,12 @@ class RecipeViewModel(
      application: Application
 ) : AndroidViewModel(application), InteractionListener {
 
-
-
      val repository: Repository = RoomRepository(
           recipeDao = AppDB.getInstance(context = application).dao
      )
 
      val recipeData = repository.recipeData
      val stepData = repository.stepData
-
      val onContentClickEvent = SingleLiveEvent<RecipeModel>()
      val onStepEditClickedEvent = SingleLiveEvent<Step?>()
      val onDeleteRecipeClickedEvent = SingleLiveEvent<RecipeModel>()
@@ -124,5 +121,6 @@ class RecipeViewModel(
           var addingStepFlag = false
           var addingRecipeFlag = false
           var editStepFlag = false
+
      }
 }
