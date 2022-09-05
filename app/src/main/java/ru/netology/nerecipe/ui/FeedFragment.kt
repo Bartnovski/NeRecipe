@@ -61,7 +61,8 @@ class FeedFragment : Fragment() {
 
         binding.bottomAppBar.setOnMenuItemClickListener { menuItem ->
             when(menuItem.itemId) {
-                R.id.favorites -> {
+                R.id.ic_star_favorite -> {
+                    menuItem.isChecked = true
                     adapter.submitList(viewModel.recipeData.value?.filter {
                         it.isFavorite
                     })

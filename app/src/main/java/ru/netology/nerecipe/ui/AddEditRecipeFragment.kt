@@ -61,8 +61,9 @@ class AddEditRecipeFragment : Fragment() {
 
         binding.accept.setOnClickListener {
 
-            if (!binding.recipeName.text.isNullOrBlank() &&
-                !binding.recipeAuthor.text.isNullOrBlank()) {
+            if (!binding.recipeName.text.isNullOrBlank() ||
+                !binding.recipeAuthor.text.isNullOrBlank() ||
+                    (binding.recipeImage.id == R.drawable.ic_logo)) {
 
                 if (!RecipeViewModel.addingRecipeFlag) {
                     viewModel.editRecipe(binding, linkImageHolder)

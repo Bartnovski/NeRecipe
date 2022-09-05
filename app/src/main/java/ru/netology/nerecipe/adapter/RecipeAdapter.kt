@@ -2,7 +2,6 @@ package ru.netology.nerecipe.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -86,10 +85,6 @@ class RecipeAdapter(
             category.text = recipe.category
             binding.favorite.isChecked = recipe.isFavorite
             stepOptions.setOnClickListener{ popupMenu.show() }
-        }
-
-        companion object{
-            val recipe = this
         }
     }
 

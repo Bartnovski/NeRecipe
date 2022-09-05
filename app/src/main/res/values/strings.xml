@@ -19,4 +19,6 @@
     <string name="logo">Logo</string>
     <string name="group">группа</string>
     <string name="filter">фильтр</string>
+    <string name="all_recipes">All recipes</string>
+    <string name="favorites">Favorites</string>
 </resources>

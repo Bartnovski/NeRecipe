@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/allRecipes"
-        android:title="All recipes"
+        android:title="@string/all_recipes"
         android:icon="@drawable/ic_baseline_restaurant_menu_24"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/favorites"
-        android:title="Favorites"
-        android:icon="@drawable/ic_star_favorite_white"
+        android:id="@+id/ic_star_favorite"
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_star_favorite"
         app:showAsAction="ifRoom"/>
 
 

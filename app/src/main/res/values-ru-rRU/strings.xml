@@ -7,4 +7,15 @@
     <string name="category">Категория</string>
     <string name="edit">Редактировать</string>
     <string name="delete">Удалить</string>
+    <string name="recipeName">Название рецепта</string>
+    <string name="author">Автор</string>
+    <string name="floating_button">Кнопка</string>
+    <string name="stepDiscription">Описание шага</string>
+    <string name="search">Поиск</string>
+    <string name="cuisinePicker">Выбор кухни</string>
+    <string name="logo">Логотип</string>
+    <string name="group">Группа</string>
+    <string name="filter">Фильтр</string>
+    <string name="all_recipes">Все рецепты</string>
+    <string name="favorites">Избранное</string>
 </resources>
